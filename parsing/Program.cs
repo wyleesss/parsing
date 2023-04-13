@@ -76,7 +76,7 @@ internal static class Program
             else
             {
                 Console.WriteLine($"\nрезультат\n=> {FromFloatDecimalToBinary(number)}");
-                Console.Write("\n\nESC - вихід");
+                Console.Write("\n\nESC - вихід\n");
                 keyInput = Console.ReadKey();
             }
         } 
