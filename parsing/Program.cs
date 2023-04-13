@@ -14,9 +14,8 @@ internal static class Program
         string Result = String.Empty;
 
         if (StrNumber.IndexOf(',') == -1)
-        {
             StrWholePart = StrNumber;
-        }
+        
         else
         {
             StrWholePart = StrNumber.Substring(0, StrNumber.IndexOf(','));
@@ -26,7 +25,7 @@ internal static class Program
         int WholePart = int.Parse(StrWholePart);
         float FractionPart = float.Parse(StrFractionPart);
 
-        while(WholePart > 0)
+        while (WholePart > 0) 
         {
             Result += (WholePart % 2).ToString();
             WholePart /= 2;
@@ -34,9 +33,23 @@ internal static class Program
 
         ForReverse = Result.ToCharArray();
         Array.Reverse(ForReverse);
-        Result = new string(String.Concat(ForReverse.ToString(), ","));
+        Result = new string(ForReverse) + ",";
 
+        while (FractionPart != 0) 
+        {
+            FractionPart *= 2;
 
+            if ((int)FractionPart == 1) 
+            {
+                Result += "1";
+                FractionPart -= 1;
+            }
+
+            else
+                Result += "0";
+        }
+
+        return Result;
     }
 
     static void Main()
@@ -57,7 +70,7 @@ internal static class Program
             if (!float.TryParse(input, out number))
             {
                 Console.WriteLine("\n(!) невірний формат числа");
-                Console.Write("\n\n\nESC - вихід");
+                Console.Write("\n\n\nESC - вихід\n");
                 keyInput = Console.ReadKey();
             }
             else
