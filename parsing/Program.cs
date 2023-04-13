@@ -4,6 +4,8 @@ internal static class Program
 {
     static string FromFloatDecimalToBinary(float number)
     {
+        bool isFractional = false;
+
         char[] ForReverse;
 
         string StrNumber = number.ToString();
@@ -15,17 +17,21 @@ internal static class Program
 
         if (StrNumber.IndexOf(',') == -1)
             StrWholePart = StrNumber;
-        
+
         else
         {
             StrWholePart = StrNumber.Substring(0, StrNumber.IndexOf(','));
             StrFractionPart = String.Concat("0,", StrNumber.Substring(StrNumber.IndexOf(',') + 1));
+            isFractional = true;
         }
 
         int WholePart = int.Parse(StrWholePart);
-        float FractionPart = float.Parse(StrFractionPart);
+        float FractionPart = 0;
 
-        while (WholePart > 0) 
+        if (isFractional)
+            FractionPart = float.Parse(StrFractionPart);
+
+        while (WholePart > 0)
         {
             Result += (WholePart % 2).ToString();
             WholePart /= 2;
@@ -33,20 +39,24 @@ internal static class Program
 
         ForReverse = Result.ToCharArray();
         Array.Reverse(ForReverse);
-        Result = new string(ForReverse) + ",";
 
-        while (FractionPart != 0) 
+        if (isFractional)
         {
-            FractionPart *= 2;
+            Result = new string(ForReverse) + ",";
 
-            if ((int)FractionPart == 1) 
+            while (FractionPart != 0)
             {
-                Result += "1";
-                FractionPart -= 1;
-            }
+                FractionPart *= 2;
 
-            else
-                Result += "0";
+                if ((int)FractionPart == 1)
+                {
+                    Result += "1";
+                    FractionPart -= 1;
+                }
+
+                else
+                    Result += "0";
+            }
         }
 
         return Result;
@@ -54,7 +64,7 @@ internal static class Program
 
     static void Main()
     {
-        Console.OutputEncoding= Encoding.UTF8;
+        Console.OutputEncoding = Encoding.UTF8;
 
         string input;
         float number;
@@ -79,7 +89,7 @@ internal static class Program
                 Console.Write("\n\nESC - вихід\n");
                 keyInput = Console.ReadKey();
             }
-        } 
+        }
         while (keyInput.Key != ConsoleKey.Escape);
     }
 }
